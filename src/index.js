@@ -3,7 +3,7 @@ import './index.css';
 import { Icon } from '@iconify/vue2';
 Vue.component('Icon', Icon);
 // import indexView from './index.vue';
-import HomeView from './HomeView.vue';
+import HomeView from './views/HomeView/HomeView.vue';
 import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
