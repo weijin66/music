@@ -2,7 +2,7 @@
   <div>
     <!-- 音乐日历标题 -->
     <div class="flex items-center ml-3">
-      <p class="text-[5vw] font-bold">音乐日历</p>
+      <p class="text-[5vw] font-bold" ref="getTitle">音乐日历</p>
       <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
       <div class="ml-[62vw]">
         <Icon
@@ -11,6 +11,7 @@
           color="gray"
           width="6vw"
           height="6vw"
+          @click.native="clickMe"
         />
       </div>
     </div>
@@ -44,6 +45,11 @@ export default {
   props: ['calendar'],
   data() {
     return {};
+  },
+  methods: {
+    clickMe() {
+      this.$emit('updateMsg', this.$refs.getTitle.innerHTML);
+    },
   },
 };
 </script>

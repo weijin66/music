@@ -1,7 +1,7 @@
 <template>
   <div class="w-[100vw] mt-[8.15vw] border-b-2">
     <div class="flex items-center ml-3">
-      <p class="text-[5vw] font-bold">新歌新碟\数字专辑</p>
+      <p class="text-[5vw] font-bold" ref="getTitle">新歌新碟\数字专辑</p>
       <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
       <div class="ml-[40vw]">
         <Icon
@@ -10,6 +10,7 @@
           color="gray"
           width="6vw"
           height="6vw"
+          @click.native="clickMe"
         />
       </div>
     </div>
@@ -52,6 +53,11 @@ export default {
   props: ['newAlbum', 'resources'],
   data() {
     return {};
+  },
+  methods: {
+    clickMe() {
+      this.$emit('updateMsg', this.$refs.getTitle.innerHTML);
+    },
   },
 };
 </script>

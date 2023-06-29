@@ -1,7 +1,7 @@
 <template>
-  <div class="w-[100vw] mt-[8.15vw] h-[65.13vw] border-b-2">
+  <div class="w-[100vw] mt-[8.15vw] h-[55.13vw] border-b-2">
     <div class="flex items-center ml-3">
-      <p class="text-[5vw] font-bold">推荐歌单</p>
+      <p class="text-[5vw] font-bold" ref="getTitle">推荐歌单</p>
       <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
       <div class="ml-[62vw]">
         <Icon
@@ -10,6 +10,7 @@
           color="gray"
           width="6vw"
           height="6vw"
+          @click.native="clickMe"
         />
       </div>
     </div>
@@ -25,7 +26,15 @@
             alt=""
             class="w-[32.13vw] h-[32.13vw] rounded-[2vw]"
           />
-          <p>{{ item.name }}</p>
+          <p
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ item.name }}
+          </p>
           <Icon
             icon="ph:play-fill"
             color="#fff"
@@ -39,7 +48,7 @@
             class="absolute top-[25vw] left-[25vw]"
           />
           <p class="absolute top-[2vw] left-[14vw] text-[white]">
-            {{ parseInt(item.playCount / 10000).toFixed(1) }}万
+            {{ parseInt(item.playCount / 10000) }}万
           </p>
         </li>
       </ul>
@@ -51,7 +60,7 @@
 import BScroll from '@better-scroll/core';
 export default {
   name: 'recommendedsonglist',
-  props: ['personalized'],
+  props: ['personalized', 'test'],
   data() {
     return {};
   },
@@ -69,6 +78,9 @@ export default {
           scrollbarTrackOffsetType: 'clickedPoint', // can use 'step'
         },
       });
+    },
+    clickMe() {
+      this.$emit('updateMsg', this.$refs.getTitle.innerHTML);
     },
   },
   mounted() {

@@ -1,113 +1,92 @@
 <template>
-  <div class="w-[100vw] overflow-hidden">
-    <!-- 搜索框 -->
-    <div class="w-[100vw] flex items-center justify-around mt-3 relative">
-      <Icon icon="mingcute:menu-fill" width="8vw" hight="8vw" />
-      <input
-        type="text"
-        placeholder="张杰"
-        class="w-[72vw] h-[10vw] border-solid border-[0.5vw] rounded-[12vw] border-fuchsia-200 bg-gradient-to-r from-purple-100 to-pink-200 indent-[12vw]"
-      />
+  <div class="w-[100vw]">
+    <div class="relative">
       <Icon
-        icon="circum:search"
-        class="absolute top-[2vw] left-[19vw]"
+        icon="uiw:left"
         width="6vw"
         height="6vw"
-        color="gray"
+        class="absolute top-0 left-5"
       />
-      <Icon
-        icon="fluent:scan-qr-code-24-filled"
-        class="absolute top-[1vw] left-[75vw]"
-        width="8vw"
-        height="8vw"
-        color="gray"
-      />
-      <Icon
-        icon="material-symbols:auto-detect-voice-outline"
-        width="8vw"
-        hight="8vw"
-      />
+      <h2 class="text-[5vw] text-center font-extrabold mt-6">歌单广场</h2>
     </div>
-    <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="item in banners" :key="item.id" class="mt-7"
-        ><img
-          :src="item.pic"
-          alt=""
-          class="rounded-[5vw] w-[91.3vw] h-[35.46vw] ml-4"
-        />
-      </van-swipe-item>
-    </van-swipe>
-    <!-- 菜单部分 -->
-    <div class="w-[100%] overflow-hidden scroll-wrapper relative" ref="scroll">
-      <ul
-        class="w-[200vw] mt-[3.83vw] h-[20vw] scroll-content flex justify-around"
-      >
+    <div
+      class="w-[80vw] overflow-hidden h-[17.61vw] scroll-wrapper ml-5"
+      ref="scroll"
+    >
+      <ul class="flex w-[130vw] text-[0.3vw] mt-5 relative">
         <li
-          v-for="item in menulist"
+          v-for="item in menu"
           :key="item.id"
-          class="mr-[4vw] flex items-center flex-wrap justify-around"
+          class="flex items-center text-[3.42vw] font-[800] mx-0 w-[12.8vw] text-center scroll-item"
+          :class="{ active: item.name === activeMenuItem }"
+          @click="toggleMenu(item.name)"
         >
-          <img :src="item.iconUrl" alt="" class="w-[15vw] h-[15vw] red-image" />
-          <p class="text-[12px] text-[#65707f]">{{ item.name }}</p>
+          <span
+            class="w-[12.48vw] block overflow-hidden whitespace-nowrap text-ellipsis"
+            >{{ item.name }}</span
+          >
         </li>
       </ul>
-    </div>
-    <!-- 推荐歌单 -->
-    <div class="w-[100vw] mt-[8.15vw] h-[58.13vw] border-b-2">
-      <div class="flex items-center ml-3">
-        <p class="text-[6vw] font-bold">推荐歌单</p>
-        <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
-        <Icon
-          icon="solar:menu-dots-bold"
-          :rotate="3"
-          color="gray"
-          width="6vw"
-          height="6vw"
-          class="ml-[55vw]"
-        />
+      <div
+        class="w-[12vw] flex items-center justify-center absolute top-[19.5vw] left-[85vw]"
+      >
+        <Icon icon="ep:menu" color="gray" width="3.68vw" height="3.68vw" />
       </div>
     </div>
+    <ul class="flex flex-wrap w-[100vw] mt-2">
+      <li
+        v-for="item in playlists"
+        :key="item.id"
+        class="w-[26.15vw] h-[52.29vw] ml-5"
+      >
+        <div class="relative">
+          <img
+            :src="item.coverImgUrl"
+            class="w-[29.15vw] h-[28.63vw] rounded-[2.5vw]"
+            alt=""
+          />
+          <div
+            class="flex items-center w-[20vw] h-[5vw] px-[2.4vw] bg-[#585146] text-[#fff] text-[2.2vw] rounded-[12vw] absolute top-2 right-2"
+          >
+            <Icon
+              icon="basil:play-outline"
+              color="white"
+              width="3vw"
+              height="3vw"
+            />
+            <span class="absolute right-2">
+              {{ parseInt(item.playCount / 10000).toFixed(1) }}万</span
+            >
+          </div>
+        </div>
+        <p class="text-[0.3vw]">{{ item.name }}</p>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import BScroll from '@better-scroll/core';
-import Scrollbar from '@better-scroll/scroll-bar';
-
-BScroll.use(Scrollbar);
-
 export default {
   data() {
     return {
       menu: [],
-      banners: [],
-      ranking: [],
-      menulist: [],
-      personalized: [],
+      playlists: [],
       activeMenuItem: '',
     };
   },
-
   methods: {
+    init() {
+      this.bs = new BScroll(this.$refs.scroll, {
+        scrollX: true,
+        click: true,
+        probeType: 3, // listening scroll event
+      });
+    },
     toggleMenu(name) {
       this.activeMenuItem = name;
       this.fetchPlaylists(name);
-    },
-    init() {
-      this.scroll = new BScroll(this.$refs.scroll, {
-        scrollX: true,
-        scrollY: false,
-        click: true,
-        probeType: 1,
-        scrollbar: {
-          fade: false,
-          interactive: true,
-          scrollbarTrackClickable: true,
-          scrollbarTrackOffsetType: 'clickedPoint', // can use 'step'
-        },
-      });
     },
     fetchPlaylists(cat) {
       axios
@@ -120,7 +99,7 @@ export default {
           }
         )
         .then((res) => {
-          // console.log( res.data.playlists);
+          console.log(res.data.playlists);
           this.playlists = res.data.playlists;
         });
     },
@@ -128,42 +107,19 @@ export default {
   mounted() {
     this.init();
   },
+  beforeDestroy() {
+    this.bs.destroy();
+  },
   created() {
     axios
       .get(
-        'https://netease-cloud-music-c2c1ys55f-cc-0820.vercel.app/homepage/block/page'
+        'https://netease-cloud-music-api-five-roan-88.vercel.app/playlist/hot'
       )
       .then((res) => {
-        console.log(res);
-        this.banners = res.data.data.blocks[0].extInfo.banners;
+        this.menu = res.data.tags;
+        return (this.activeMenuItem = this.menu[0].name);
       })
       .then((cat) => this.fetchPlaylists(cat))
-      .catch((err) => {
-        console.log(err);
-      });
-
-    // 菜单
-    axios
-      .get(
-        'https://netease-cloud-music-c2c1ys55f-cc-0820.vercel.app/homepage/dragon/ball'
-      )
-      .then((res) => {
-        this.menulist = res.data.data;
-        // console.log(this.menulist);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    //推荐歌单
-    axios
-      .get(
-        'https://netease-cloud-music-c2c1ys55f-cc-0820.vercel.app/personalized'
-      )
-      .then((res) => {
-        this.personalized = res.data.result;
-        console.log(this.personalized);
-      })
       .catch((err) => {
         console.log(err);
       });
@@ -171,11 +127,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.bscroll-indicator {
-  width: 20vw !important;
-}
-.red-image {
-  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
+<style>
+.active {
+  color: red;
 }
 </style>

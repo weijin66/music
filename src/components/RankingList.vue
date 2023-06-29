@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex items-center ml-3 mt-6">
-      <p class="text-[5vw] font-bold">排行榜</p>
+      <p class="text-[5vw] font-bold" ref="getTitle">排行榜</p>
       <div class="ml-[74vw]">
         <Icon
           icon="solar:menu-dots-bold"
@@ -9,6 +9,7 @@
           color="gray"
           width="6vw"
           height="6vw"
+          @click.native="clickMe"
         />
       </div>
     </div>
@@ -78,6 +79,11 @@ export default {
   props: ['blocks'],
   data() {
     return {};
+  },
+  methods: {
+    clickMe() {
+      this.$emit('updateMsg', this.$refs.getTitle.innerHTML);
+    },
   },
 };
 </script>

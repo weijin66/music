@@ -1,5 +1,8 @@
 <template>
-  <div class="w-[100vw] overflow-hidden bg-purple-100">
+  <div
+    class="w-[100vw] overflow-hidden bg-purple-100"
+    :style="{ height: `${drawerVisible ? '100vh' : ''}` }"
+  >
     <!-- 搜索框 -->
     <search></search>
     <!-- 轮播图 -->
@@ -7,13 +10,76 @@
     <!-- 菜单部分 -->
     <menulist :menulist="menulist"></menulist>
     <!-- 推荐歌单 -->
-    <recommendedsonglist :personalized="personalized"></recommendedsonglist>
+    <recommendedsonglist
+      :personalized="personalized"
+      @updateMsg="showTitle"
+      :title="show"
+    ></recommendedsonglist>
     <!-- 新歌新碟\数字专辑 -->
-    <newsongs :newAlbum="newAlbum" resources="resources"></newsongs>
+    <newsongs
+      :newAlbum="newAlbum"
+      resources="resources"
+      @updateMsg="showTitle"
+      :title="show"
+    ></newsongs>
     <!-- 排行榜 -->
-    <rankinglist :blocks="blocks"></rankinglist>
+    <rankinglist
+      :blocks="blocks"
+      @updateMsg="showTitle"
+      :title="show"
+    ></rankinglist>
     <!-- 音乐日历 -->
-    <musiccalendar :calendar="calendar"></musiccalendar>
+    <musiccalendar
+      :calendar="calendar"
+      @updateMsg="showTitle"
+      :title="show"
+    ></musiccalendar>
+    <!-- 从下往上弹出封装的组件 -->
+    <drawer :visible.sync="drawerVisible" direction="btt" :test="show">
+      <template #header>
+        <div
+          class="flex justify-between items-center border-b-[0.2vw] pt-2 pl-5"
+        >
+          <p>{{ show }}</p>
+          <Icon
+            @click.native="closeDrawer"
+            icon="carbon:close-filled"
+            color="#f1f3f4"
+            width="8vw"
+            height="8vw"
+            class="mr-3"
+          />
+        </div>
+      </template>
+      <div class="flex items-center mt-2 ml-3">
+        <Icon
+          icon="iconamoon:like-bold"
+          color="#000"
+          width="6vw"
+          height="6vw"
+        />
+        <p class="ml-3">优先推荐</p>
+      </div>
+      <div class="flex items-center mt-9 ml-3">
+        <Icon
+          icon="basil:heart-off-outline"
+          color="#000"
+          width="6vw"
+          height="6vw"
+        />
+        <p class="ml-3">减少推荐</p>
+      </div>
+      <div class="flex items-center mt-9 ml-3">
+        <Icon
+          icon="mingcute:more-4-line"
+          color="#000"
+          width="6vw"
+          height="6vw"
+        />
+        <p class="ml-3">更多内容</p>
+        <!-- <p>{{ show }}</p> -->
+      </div>
+    </drawer>
   </div>
 </template>
 
@@ -38,6 +104,9 @@ export default {
       blocks: [],
       calendar: [],
       activeMenuItem: '',
+      drawerVisible: false,
+      visible: true,
+      show: '',
     };
   },
   components: {
@@ -49,12 +118,28 @@ export default {
     newsongs: () => import('../../components/NewSongList.vue'),
     rankinglist: () => import('../../components/RankingList.vue'),
     musiccalendar: () => import('../../components/MusicCalendar.vue'),
+    drawer: () => import('../../components/Drawer.vue'),
   },
 
   methods: {
     toggleMenu(name) {
       this.activeMenuItem = name;
       this.fetchPlaylists(name);
+    },
+    showTitle(payload) {
+      this.drawerVisible = !this.drawerVisible;
+      this.show = payload;
+    },
+    closeDrawer() {
+      // this.$emit('update:visible', false);
+      this.drawerVisible = !this.drawerVisible;
+    },
+    clickHandler(e) {
+      if (e.target === this.$refs.drawerMask) {
+        // this.visible = false;
+        // 使用vm.$emit给父组件传递数据
+        this.closeDrawer();
+      }
     },
   },
   created() {
