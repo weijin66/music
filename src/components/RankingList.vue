@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <div class="flex items-center ml-3 mt-6">
-      <p class="text-[5vw] font-bold" ref="getTitle">排行榜</p>
-      <div class="ml-[74vw]">
+  <div class="border-b-2 h-[68vw]">
+    <div class="flex items-center justify-between ml-3 mt-6">
+      <div class="flex items-center">
+        <p class="text-[5vw] font-bold" ref="getTitle">排行榜</p>
+        <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
+      </div>
+      <div class="ml-[40vw]">
         <Icon
           icon="solar:menu-dots-bold"
           :rotate="3"
@@ -13,11 +16,11 @@
         />
       </div>
     </div>
-    <van-swipe class="my-swipe" indicator-color="white">
+    <van-swipe class="my-swipe" :show-indicators="false">
       <van-swipe-item v-for="item in blocks" :key="item.id" class="pl-[4vw]">
         <!-- 排行榜 -->
         <div
-          class="p-[2vw] mr-[10vw] overflow-hidden w-[90vw] m-[2.5vw] ml-0 h-[50vw] bg-white scroll-item border-b-2 rounded-[3vw]"
+          class="p-[2vw] mr-[10vw] overflow-hidden w-[90vw] m-[2.5vw] ml-0 h-[50vw] bg-white scroll-item rounded-[3vw] dark:bg-gray-400"
           ref="song"
         >
           <div class="flex justify-between w-[100%]">
@@ -25,23 +28,34 @@
               {{ item.uiElement.mainTitle.title }}
             </h1>
             <p
-              class="text-[3vw] leading-[10vw] text-ellipsis overflow-hidden whitespace-nowrap w-[30vw]"
+              class="text-[3vw] leading-[10vw] text-[#939BA1] w-[30vw] pl-[5vw]"
             >
               {{ item.uiElement.mainTitle.titleDesc }}
             </p>
           </div>
           <ul class="">
             <li v-for="(items, indexs) in 3" :key="indexs.id" class="mb-[3vw]">
-              <div class="flex relative w-[100%]">
+              <div class="flex relative w-[100%] items-center">
                 <img
                   :src="
                     item.resources[indexs].resourceExtInfo?.songData.album
-                      .blurPicUrl
+                      .picUrl
                   "
                   class="w-[10vw] h-[10vw] rounded-[2vw]"
                   alt=""
                 />
-                <p class="text-[5vw] w-[10vw] text-center">
+                <p
+                  class="text-[5vw] w-[10vw] text-center"
+                  :style="{
+                    color: `${
+                      indexs == 0
+                        ? '#c7972c'
+                        : indexs == 1
+                        ? '#7982a4'
+                        : '#c17443'
+                    }`,
+                  }"
+                >
                   {{ indexs + 1 }}
                 </p>
                 <div>

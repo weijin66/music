@@ -3,7 +3,7 @@
     <transition :name="direction">
       <div
         v-show="visible"
-        class="w-screen h-[220px] bg-white absolute z-[999] rounded-t-2xl"
+        class="w-screen h-[220px] bg-white fixed bottom-0 z-[999] rounded-t-2xl"
         :style="[drawerContentStyle, { width }]"
       >
         <div>
@@ -17,7 +17,7 @@
     <div
       v-if="visible"
       ref="drawerMask"
-      class="bg-black opacity-20 absolute top-0 right-0 bottom-0 left-0 z-[998]"
+      class="bg-black opacity-20 fixed top-0 right-0 bottom-0 left-0 z-[998]"
     ></div>
   </div>
 </template>

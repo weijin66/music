@@ -1,8 +1,10 @@
 <template>
-  <div class="w-[100vw] mt-[8.15vw] border-b-2">
-    <div class="flex items-center ml-3">
-      <p class="text-[5vw] font-bold" ref="getTitle">新歌新碟\数字专辑</p>
-      <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
+  <div class="w-[100vw] mt-[8.15vw] border-b-2 h-[80vw]">
+    <div class="flex items-center justify-between ml-3">
+      <div class="flex items-center">
+        <p class="text-[5vw] font-bold" ref="getTitle">新歌新碟\数字专辑</p>
+        <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
+      </div>
       <div class="ml-[40vw]">
         <Icon
           icon="solar:menu-dots-bold"
@@ -14,7 +16,7 @@
         />
       </div>
     </div>
-    <van-swipe class="my-swipe" indicator-color="white">
+    <van-swipe class="my-swipe" :show-indicators="false">
       <van-swipe-item v-for="item in newAlbum" :key="item.id">
         <div
           class="flex mt-[6.39vw] w-[100%] overflow-hidden scroll-wrapper"
