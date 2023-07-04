@@ -1,7 +1,7 @@
 <template>
   <div :class="{ dark: switchCheckStatus }">
     <div
-      class="w-[100vw] overflow-hidden bg-[#f7fafc] text-[#000] dark:bg-gray-900 dark:text-[#fff]"
+      class="w-[100vw] overflow-hidden bg-[#f7fafc] text-[#000] dark:bg-[#1a1c23] dark:text-[#fff]"
     >
       <!-- 搜索框 -->
       <div class="w-[100vw] flex items-center justify-around mt-3 relative">
@@ -15,6 +15,7 @@
           type="text"
           placeholder="张杰"
           class="w-[72vw] h-[10vw] border-solid border-[0.5vw] rounded-[12vw] border-fuchsia-200 bg-gradient-to-r from-purple-100 to-pink-200 indent-[12vw]"
+          @click="search"
         />
         <Icon
           icon="circum:search"
@@ -41,9 +42,9 @@
         position="left"
         :style="{ width: '85%', height: '100%', backgroundColor: '#f5f5f5' }"
       >
-        <div class="dark:bg-gray-900">
+        <div class="dark:bg-[#151515]">
           <div
-            class="flex items-center justify-between pt-6 ml-[4vw] dark:bg-gray-900"
+            class="flex items-center justify-between pt-6 ml-[4vw] dark:bg-[#151515]"
           >
             <div class="flex items-center">
               <img
@@ -88,32 +89,36 @@
           </div>
           <!-- 卡片 -->
           <ul
-            v-for="item in text"
+            v-for="(item, index) in text"
             :key="item.id"
-            class="w-[90%] mx-auto bg-[#ffffff] rounded-[3vw] mt-[4vw]"
+            class="w-[90%] mx-auto bg-[#ffffff] rounded-[3vw] mt-[4vw] dark:bg-[#2c2c2c]"
           >
             <div
               v-if="item.title"
-              class="pl-[5vw] pt-[4vw] border-b-[0.1vw] h-[13vw] dark:bg-gray-900"
+              class="pl-[5vw] pt-[4vw] text-[3vw] border-b-[0.1vw] text-[#aeaeae] dark:border-[#373737] h-[13vw] dark:bg-[#2c2c2c]"
             >
               {{ item.title }}
             </div>
             <li
-              v-for="(item2, index) in item.first"
-              class="flex items-center py-5 justify-between dark:bg-gray-900"
+              v-for="item2 in item.first"
+              class="flex items-center py-5 justify-between dark:bg-[#2c2c2c]"
               :key="item2.id"
               :style="{
                 borderBottom: `${
-                  index != item.first.length - 1 ? '0.1vw solid #f2f2f2' : ''
+                  index != item.first.length - 1 &&
+                  index == 0 &&
+                  !switchCheckStatus
+                    ? '0.1vw solid #f2f2f2'
+                    : ''
                 }`,
               }"
             >
               <div class="flex items-center ml-4">
-                <Icon :icon="item2.icon" class="text-[25px]" />
+                <Icon :icon="item2.icon" class="text-[20px]" />
                 <div class="ml-2">{{ item2.msg }}</div>
               </div>
               <div class="flex items-center">
-                <div v-if="item2.director" class="text-[#aeaeae]">
+                <div v-if="item2.director" class="text-[#aeaeae] text-[3vw]">
                   {{ item2.director }}
                 </div>
                 <van-switch
@@ -122,7 +127,9 @@
                   v-model="checked"
                   active-color="#ee0a24"
                   inactive-color="#dcdee0"
+                  size="5vw"
                   v-if="item2.btn"
+                  class="mr-3"
                 />
                 <Icon
                   v-else
@@ -133,7 +140,7 @@
             </li>
           </ul>
           <div
-            class="w-[75vw] h-[14vw] bg-[#fff] rounded-[3vw] mx-auto my-4 text-center leading-[14vw] text-[red]"
+            class="w-[75vw] h-[14vw] dark:bg-[#2c2c2c] bg-[#fff] rounded-[3vw] mx-auto my-4 text-center leading-[14vw] text-[red]"
           >
             退出登录/关闭
           </div>
@@ -175,7 +182,7 @@
       <drawer :visible.sync="drawerVisible" direction="btt" :test="show">
         <template #header>
           <div
-            class="flex justify-between items-center border-b-[0.2vw] pt-2 pl-5"
+            class="flex justify-between items-center border-b-[0.2vw] dark:border-[#23252c] pt-2 pl-5"
           >
             <p>{{ show }}</p>
             <Icon
@@ -467,6 +474,9 @@ export default {
         this.closeDrawer();
       }
     },
+    search() {
+      this.$router.push('/search');
+    },
   },
   created() {
     // 轮播图  新歌新碟\数字专辑 排行榜
@@ -476,7 +486,7 @@ export default {
       this.newAlbum = res.data.data.blocks[5].creatives; //新歌新碟\数字专辑
       // console.log(this.newAlbum);
       // console.log(res.data.data.blocks[3].creatives);
-      this.blocks = res.data.data.blocks[3].creatives.slice(1, 4); //排行榜
+      this.blocks = res.data.data.blocks[3].creatives; //排行榜
       this.personalized = res.data.data.blocks[1].creatives.slice(1); //推荐歌单
       this.bannerPic = res.data.data.blocks[1].creatives[0].resources; //小轮播数据
       // this.resourceData = this.bannerPic[0].uiElement.mainTitle.title;

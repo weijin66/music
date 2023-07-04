@@ -23,3 +23,27 @@ let end = new Date(
 );
 export const Calendar = () =>
   http.get(`/calendar?startTime=${start.getTime()}&endTime=${end.getTime()}`);
+
+// 获取默认搜索关键词
+/**
+ * @description 获取默认搜索关键字
+ * @parm {Array} xxx
+ * @returns  {Promise} xxx
+ */
+export const fetchSearchDefault = () => http.get('/search/default');
+
+export const fetchSearchResult = (params) =>
+  http.get('/cloudsearch', { params });
+
+export async function playlist() {
+  //获取所有个歌单的id
+  const res = await http.get('/toplist/detail');
+  //通过id获取歌曲
+  const playlist = await Promise.all(
+    res.data.list.map(({ id }) =>
+      http.get('/playlist/detail', { params: { id } })
+    )
+  );
+  console.log(playlist.map((item) => item.data.playlist));
+  return playlist.map((item) => item.data.playlist);
+}

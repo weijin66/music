@@ -1,21 +1,26 @@
 import Vue from 'vue';
+import App from './App.vue';
+import router from './router/index';
 import './index.css';
 import { Icon } from '@iconify/vue2';
 Vue.component('Icon', Icon);
 // import indexView from './index.vue';
-import HomeView from './views/HomeView/HomeView.vue';
+// import HomeView from './views/HomeView/HomeView.vue';
 import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
+import dayjs from 'dayjs';
+Vue.prototype.dayjs = dayjs;
 
 //页面打开，请求自动发送
 // 请求回来的数据还要渲染到页面上 （数据驱动视图的框架）
 // 数据驱动试图变化的条件：数据必须是响应式的数据（data） + 数据必须通过模板语法绑定到模板中
 // vue中this的指向问题：methods中所有函数(不要箭头函数)的this指向vm(vue的实例)
 
-const vm = new Vue({
-  el: '#app', // 指令是出现在模板中
-  render: (h) => h(HomeView),
+new Vue({
+  el: '#app',
+  router,
+  render: (h) => h(App),
 });
 
 // console.log(vm);

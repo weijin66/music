@@ -1,9 +1,18 @@
 <template>
-  <div class="w-[100vw] mt-[8.15vw] h-[60.13vw] border-b-2">
+  <div
+    class="w-[100vw] mt-[8.15vw] h-[60.13vw] border-b-[0.1vw] dark:border-[#23252c]"
+  >
     <div class="flex items-center justify-between ml-3">
       <div class="flex items-center">
-        <p class="text-[5vw] font-bold" ref="getTitle">推荐歌单</p>
-        <Icon icon="mingcute:right-line" width="8vw" height="8vw" />
+        <p class="text-[5vw] text-[#404959] dark:text-[#fff]" ref="getTitle">
+          推荐歌单
+        </p>
+        <Icon
+          icon="mingcute:right-line"
+          width="8vw"
+          height="8vw"
+          color="#525d6e"
+        />
       </div>
       <div class="ml-[62vw]">
         <Icon
