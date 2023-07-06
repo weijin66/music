@@ -48,7 +48,7 @@
                 <img
                   :src="item.uiElement.image.imageUrl"
                   alt=""
-                  class="w-[32.13vw] h-[32.13vw] rounded-[2vw]"
+                  class="w-[32.13vw] h-[32.13vw] rounded-[2vw] border-t-4 border-[#eaedef]"
                 />
               </div>
             </transition>
@@ -65,7 +65,8 @@
           <img
             :src="item.uiElement.image.imageUrl"
             alt=""
-            class="w-[32.13vw] h-[32.13vw] rounded-[2vw]"
+            class="w-[32.13vw] h-[32.13vw] rounded-[2vw] border-t-4 border-[#eaedef]"
+            @click="songDtail(item.resources[0].resourceId)"
           />
           <p class="text-[3vw] scroll-item line-clamp-2">
             {{ item.uiElement.mainTitle.title }}
@@ -82,10 +83,24 @@
             height="6vw"
             class="absolute top-[25vw] left-[25vw]"
           />
-          <p class="absolute top-[2vw] left-[18vw] text-[#fff]">
+          <p
+            class="absolute top-[2vw] left-[18vw] text-[#fff]"
+            v-if="
+              item.resources[0].resourceExtInfo.playCount >= 10000 &&
+              item.resources[0].resourceExtInfo.playCount < 100000000
+            "
+          >
             {{
               parseInt(item.resources[0].resourceExtInfo.playCount / 10000)
             }}万
+          </p>
+          <p
+            class="absolute top-[2vw] left-[18vw] text-[#fff]"
+            v-if="item.resources[0].resourceExtInfo.playCount >= 100000000"
+          >
+            {{
+              parseInt(item.resources[0].resourceExtInfo.playCount / 100000000)
+            }}亿
           </p>
         </li>
       </ul>
@@ -132,6 +147,10 @@ export default {
         this.resourceData =
           this.bannerPic[this.visible].uiElement.mainTitle.title;
       }, 5000);
+    },
+    songDtail(id) {
+      // console.log(id);
+      this.$router.push({ path: '/song', query: { id } });
     },
   },
   mounted() {

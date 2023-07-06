@@ -141,6 +141,7 @@
           </ul>
           <div
             class="w-[75vw] h-[14vw] dark:bg-[#2c2c2c] bg-[#fff] rounded-[3vw] mx-auto my-4 text-center leading-[14vw] text-[red]"
+            @click="openConfirmDialog"
           >
             退出登录/关闭
           </div>
@@ -230,6 +231,7 @@
 
 <script>
 import { BlockPage, DragonBall, Calendar } from '../../request/index';
+import { Dialog } from 'vant';
 // import Scrollbar from '@better-scroll/scroll-bar';
 // BScroll.use(Scrollbar);
 
@@ -477,13 +479,32 @@ export default {
     search() {
       this.$router.push('/search');
     },
+    openConfirmDialog() {
+      Dialog.confirm({
+        message: '确定退出当前账号吗?',
+      })
+        .then(() => {
+          // on confirm
+          console.log('Confirmed');
+          // 获取 __m__cookie 值
+          const mCookie = localStorage.getItem('__m__cookie');
+
+          // 移除 __m__cookie 键
+          localStorage.removeItem('__m__cookie');
+          this.$router.push('/login');
+        })
+        .catch(() => {
+          // on cancel
+          console.log('Cancelled');
+        });
+    },
   },
   created() {
     // 轮播图  新歌新碟\数字专辑 排行榜
     BlockPage().then((res) => {
       // console.log( this.banners);
       this.banners = res.data.data.blocks[0].extInfo.banners;
-      this.newAlbum = res.data.data.blocks[5].creatives; //新歌新碟\数字专辑
+      this.newAlbum = res.data.data.blocks[2].creatives; //新歌新碟\数字专辑
       // console.log(this.newAlbum);
       // console.log(res.data.data.blocks[3].creatives);
       this.blocks = res.data.data.blocks[3].creatives; //排行榜
@@ -491,7 +512,7 @@ export default {
       this.bannerPic = res.data.data.blocks[1].creatives[0].resources; //小轮播数据
       // this.resourceData = this.bannerPic[0].uiElement.mainTitle.title;
       //推荐歌单
-      console.log(this.personalized);
+      // console.log(this.personalized);
     });
 
     // 菜单

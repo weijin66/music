@@ -7,6 +7,8 @@ import SearchView from '../views/SearchView/SearchView.vue';
 import SingerView from '../views/SingerView/SingerView.vue';
 import GenreView from '../views/GenreView/GenreView.vue';
 import ZoneView from '../views/ZoneView/ZoneView.vue';
+import SongDetailView from '../views/SongDetailView/SongDetailView.vue';
+import LoginView from '../views/LoginView/LoginView.vue';
 
 const routes = [
   // 路径重定向
@@ -43,6 +45,16 @@ const routes = [
   {
     path: '/zone',
     component: ZoneView,
+  },
+  // 歌单详情
+  {
+    path: '/song',
+    component: SongDetailView,
+  },
+  // 登录页面
+  {
+    path: '/login',
+    component: LoginView,
   },
 ];
 
