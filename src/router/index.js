@@ -14,7 +14,7 @@ const routes = [
   // 路径重定向
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/login',
   },
   // 首页
   {
