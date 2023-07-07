@@ -84,6 +84,9 @@ export default {
           clearInterval(timer);
           console.log(res.data.cookie);
           store.set('__m__cookie', res.data.cookie);
+        } else if (res.data.code === 802) {
+          this.state = 802;
+          console.log(res.data.code);
         }
       }, interval);
       this.$on('hook:beforeDestroy', () => {
