@@ -139,7 +139,7 @@
                       class="w-[32.13vw] h-[32.13vw] rounded-[2vw] border-t-4 border-[#eaedef]"
                       @click="songDtail(item.resources[0].resourceId)"
                     />
-                    <p class="text-[4vw] scroll-item line-clamp-2 text-[#fff]">
+                    <p class="text-[3vw] scroll-item line-clamp-2 text-[#fff]">
                       {{ item.uiElement.mainTitle.title }}
                     </p>
                     <Icon
