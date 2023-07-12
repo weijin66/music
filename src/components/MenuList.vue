@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[100%] overflow-hidden scroll-wrapper" ref="scroll">
+  <div class="w-[100%] overflow-hidden scroll-wrapper ml-[2.5vw]" ref="scroll">
     <ul
       class="w-[200vw] mt-[3.83vw] h-[20vw] scroll-content flex justify-around ml-2"
     >

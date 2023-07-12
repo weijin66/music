@@ -2,7 +2,12 @@
   <div>
     <!-- 头部标题 -->
     <div class="flex items-center mt-[7vw] ml-[5vw]">
-      <Icon icon="ph:arrow-left-light" color="#343434" width="8vw" />
+      <Icon
+        icon="ph:arrow-left-light"
+        color="#343434"
+        width="8vw"
+        @click.native="$router.push('/home')"
+      />
       <p class="text-[#2e2e2e] text-[5vw] ml-[5vw]">MV排行榜</p>
     </div>
     <!-- tab切换 -->
