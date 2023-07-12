@@ -56,6 +56,29 @@ const routes = [
     path: '/login',
     component: LoginView,
   },
+
+  // myMsgJSX
+  {
+    path: '/myMsg',
+    component: () =>
+      import(/*webpackChunkName:'jsx'*/ '../views/myMsgView/myMsg.jsx'),
+  },
+  // editJSX
+  {
+    path: '/user/edit',
+    component: () =>
+      import(/*webpackChunkName:'jsx'*/ '../views/editView/edit.jsx'),
+  },
+  // 音乐播放器
+  {
+    path: '/musicplayer',
+    component: () => import('../views/MusicPlayerView/MusicPlayerView.vue'),
+  },
+  // MV排行榜
+  {
+    path: '/mv',
+    component: () => import('../views/MVView/MVView.vue'),
+  },
 ];
 
 Vue.use(VueRouter);

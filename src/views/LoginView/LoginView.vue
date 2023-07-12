@@ -57,11 +57,18 @@
         <p>请在手机上确认登录</p>
       </div>
     </div>
+    <img src="../../static/bg.jpg" alt="" class="fixed bottom-0" />
   </div>
 </template>
 
 <script>
-import { getQRKey, getQrInfo, checkQrStatus } from '../../request/index.js';
+import {
+  getQRKey,
+  getQrInfo,
+  checkQrStatus,
+  getUserAccount,
+  getUserDetail,
+} from '../../request/index.js';
 import store from 'storejs';
 export default {
   name: 'Login',
@@ -79,11 +86,19 @@ export default {
           this.state = 800;
           clearInterval(timer);
         } else if (res.data.code === 803) {
+          console.log(res.data.cookie);
           this.state = 803;
+          store.set('__m__cookie', res.data.cookie);
+          const user = await getUserAccount();
+          store.set('allMsg', user.data);
+          console.log('用户信息', user.data);
+
+          const userdata = await getUserDetail(user.data.account.id);
+          store.set('userDetail', userdata.data);
+          console.log('账号信息', userdata.data);
+
           this.$router.push('/home');
           clearInterval(timer);
-          console.log(res.data.cookie);
-          store.set('__m__cookie', res.data.cookie);
         } else if (res.data.code === 802) {
           this.state = 802;
           console.log(res.data.code);
@@ -114,9 +129,3 @@ export default {
   },
 };
 </script>
-
-<style>
-body {
-  background: url('../../static/bg.jpg') no-repeat -98vw 126vw;
-}
-</style>

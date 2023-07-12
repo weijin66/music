@@ -79,7 +79,9 @@ export default {
   name: 'musiccalendar',
   props: ['calendar'],
   data() {
-    return {};
+    return {
+      onlineTime: '',
+    };
   },
   methods: {
     clickMe() {

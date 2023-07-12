@@ -31,7 +31,10 @@
         >
           <div class="flex justify-between w-[100%]">
             <div class="flex items-center w-[50vw]">
-              <h1 class="text-[5vw] text-[#3d485e] dark:text-[#fff]">
+              <h1
+                class="text-[5vw] text-[#3d485e] dark:text-[#fff]"
+                @click="$router.push('/mv')"
+              >
                 {{ item.uiElement.mainTitle.title }}
               </h1>
               <Icon

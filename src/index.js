@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router/index';
+import Player from './components/MusicPlayer/player';
+Vue.use(Player);
 import './index.css';
 import { Icon } from '@iconify/vue2';
 Vue.component('Icon', Icon);

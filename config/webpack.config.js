@@ -8,7 +8,6 @@ const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
   // 入口文件
   entry: './src/index.js',
-
   // 出口文件
   output: {
     filename: './js/main.[contenthash:8].js',
@@ -17,16 +16,12 @@ module.exports = {
     clean: true,
   },
 
-  externals: {
-    vue: 'Vue',
-  },
-
   // 插件设置
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html', // 设置html模板
       cdn: {
-        script: ['https://cdn.jsdelivr.net/npm/vue@2'],
+        script: [],
         // 空数组代表不需要引入样式文件
         style: [],
       },
@@ -75,6 +70,7 @@ module.exports = {
   resolve: {
     // 别名配置，以 "@" 为例
     alias: {
+      vue: 'vue/dist/vue.esm.js',
       // 将 "@"" 指向 "./src" 目录
       '@': path.resolve(__dirname, 'src'),
     },
@@ -91,6 +87,12 @@ module.exports = {
           'css-loader',
           'postcss-loader',
         ],
+      },
+      {
+        test: /\.jsx$/,
+        use: {
+          loader: 'babel-loader',
+        },
       },
       // 解析less文件
       {

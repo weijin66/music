@@ -117,7 +117,7 @@ export default {
     return {
       visible: 0,
       resourceData: '',
-      bannerPic: [],
+      // bannerPic: [],
     };
   },
   methods: {

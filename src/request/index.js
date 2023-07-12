@@ -68,3 +68,49 @@ export const getQrInfo = (key, qrimg = 1) =>
 
 export const checkQrStatus = (key) =>
   http.get('/login/qr/check', { params: { key, timestamp: Date.now() } });
+
+export const loginStatus = () => http.get('/login/status');
+export const getUserAccount = () => http.get('/user/account');
+export const getUserDetail = (uid) =>
+  http.get('/user/detail', { params: { uid } });
+
+// 用户详情页面
+export const getUserShou = () => http.get('/user/subcount');
+
+/**
+ * @descriptiong 获取用户评论
+ */
+export const fetchUserHistory = (uid) =>
+  http.get('/user/comment/history', { params: { uid } });
+
+/**
+ * @descriptiong 获取用户歌单
+ */
+// 收藏歌单加我的评论
+export const fetchUserPlaylist = (uid) =>
+  http.get('/user/playlist', { params: { uid } });
+
+/**
+ * @descriptiong 播放歌曲
+ */
+
+// 播放歌曲
+export const getTrackDetail = (id) =>
+  http.get('/song/detail', { params: { ids: id } });
+export const getMP3 = (id) =>
+  http.get('/song/url/v1', { params: { id, level: 'standard' } });
+
+//修改昵称
+export const fetchUserUpdata = (nickname) =>
+  http.get('/user/update', { params: { nickname } });
+//昵称修改判断是否重复
+export const featNicknameCheck = (nickname) =>
+  http.get('/nickname/check', { params: { nickname } });
+
+/**
+ * @descriptiong MV排行
+ */
+
+// MV排行
+export const MvList = (area) =>
+  http.get('/top/mv', { params: { limit: 50, area } });

@@ -13,7 +13,7 @@
           <p
             v-if="item.name == '每日推荐'"
             class="absolute top-[4.5vw] left-[4.5vw] text-[5vw] text-[#fff]"
-            :style="{ left: day < 10 ? '5.8vw' : '4.5vw' }"
+            :style="{ left: day < 10 ? '6vw' : '4.5vw' }"
           >
             {{ day }}
           </p>

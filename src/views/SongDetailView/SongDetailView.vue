@@ -205,9 +205,7 @@
     <!-- 分享图标 -->
     <div class="w-[91vw] mx-auto mt-[6vw]">
       <ul class="flex items-center justify-between">
-        <li
-          class="w-[28vw] h-[11vw] rounded-[12vw] bg-[#b88e7d] flex items-center"
-        >
+        <li class="h-[11vw] rounded-[12vw] bg-[#b88e7d] leading-[11vw]">
           <div class="flex items-center px-5">
             <Icon
               icon="majesticons:share"
@@ -220,9 +218,7 @@
             </p>
           </div>
         </li>
-        <li
-          class="w-[28vw] h-[11vw] rounded-[12vw] bg-[#b88e7d] flex items-center"
-        >
+        <li class="h-[11vw] rounded-[12vw] bg-[#b88e7d] leading-[11vw]">
           <div class="flex items-center px-5">
             <Icon
               icon="iconamoon:comment-dots-fill"
@@ -233,9 +229,7 @@
             <p class="text-[4vw] text-[#fffcf4] pl-2">{{ res.commentCount }}</p>
           </div>
         </li>
-        <li
-          class="w-[28vw] h-[11vw] rounded-[12vw] bg-[#ff363f] flex items-center"
-        >
+        <li class="h-[11vw] rounded-[12vw] bg-[#ff363f] leading-[11vw]">
           <div class="flex items-center px-5">
             <Icon
               icon="fluent:collections-24-filled"
@@ -243,7 +237,13 @@
               width="5vw"
               height="5vw"
             />
-            <p class="text-[4vw] text-[#fffcf4] pl-2">
+            <p
+              class="text-[4vw] text-[#fffcf4] pl-2"
+              v-if="res.subscribedCount >= 10000"
+            >
+              {{ parseFloat(res.subscribedCount / 10000).toFixed(1) + '万' }}
+            </p>
+            <p class="text-[4vw] text-[#fffcf4] pl-2" v-else>
               {{ res.subscribedCount }}
             </p>
           </div>
@@ -261,6 +261,7 @@
             color="#fc3630"
             width="6vw"
             height="6vw"
+            @click.native="playAll"
           />
           <p class="pl-[5vw] text-[4vw] text-[#353435] font-bold">播放全部</p>
           <p class="text-[#928e88] pl-[3vw]">({{ res.trackCount }})</p>
@@ -277,11 +278,12 @@
       </div>
       <!-- 歌曲部分 -->
       <div class="w-[89vw] mx-auto">
-        <ul>
+        <ul class="mb-[16vw]">
           <li
             v-for="(item, index) in res1"
             :key="item.id"
             class="flex items-center justify-between my-[5vw]"
+            @click="playSingle(item.id)"
           >
             <div>
               <span class="text-[5vw] text-[#969696]">{{ index + 1 }}</span>
@@ -337,6 +339,7 @@
 <script>
 import { songDetail, songAll } from '../../request/index.js';
 import axios from 'axios';
+import store from 'storejs';
 export default {
   data() {
     return {
@@ -347,6 +350,18 @@ export default {
     };
   },
   methods: {
+    playAll() {
+      window.$player.replacePlaylist(
+        this.res1.map((song) => song.id, '', '', '')
+      );
+      console.log('$player', window.$player._currentTrack?.al?.picUrl);
+    },
+    // 播放器 播放单个
+    playSingle(id) {
+      this.$player.replacePlaylist([id], '', '');
+      store.set('cookie_music', this.res1);
+      this.$router.push('/musicplayer');
+    },
     showtop() {
       console.log(111);
       this.visible = !this.visible;

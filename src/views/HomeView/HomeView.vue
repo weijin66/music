@@ -48,11 +48,24 @@
           >
             <div class="flex items-center">
               <img
-                src="http://p2.music.126.net/uSCBlYEiFPDgBvzmQGUe7A==/109951166096775188.jpg"
+                :src="localStorage.profile.avatarUrl"
                 alt=""
                 class="w-[8vw] h-[8vw] rounded-[50%]"
+                @click="$router.push('/myMsg')"
+                v-if="cookie"
               />
-              <p class="text-[5vw] ml-3">sophine</p>
+              <img
+                src="../../static/user.jpg"
+                alt=""
+                v-else
+                class="w-[8vw] h-[8vw] rounded-[50%]"
+              />
+              <p class="text-[5vw] ml-3" v-if="cookie">
+                {{ localStorage.profile.nickname }}
+              </p>
+              <p class="text-[5vw] ml-3" v-else @click="$router.push('/login')">
+                立即登录
+              </p>
               <Icon icon="mingcute:right-line" width="6vw" height="6vw" />
             </div>
             <Icon
@@ -180,7 +193,12 @@
         :title="show"
       ></musiccalendar>
       <!-- 从下往上弹出封装的组件 -->
-      <drawer :visible.sync="drawerVisible" direction="btt" :test="show">
+      <drawer
+        :visible.sync="drawerVisible"
+        direction="btt"
+        :test="show"
+        :title="drawerTitle"
+      >
         <template #header>
           <div
             class="flex justify-between items-center border-b-[0.2vw] dark:border-[#23252c] pt-2 pl-5"
@@ -244,6 +262,7 @@ export default {
       personalized: [],
       newAlbum: [],
       blocks: [],
+      bannerPic: [],
       calendar: [],
       activeMenuItem: '',
       drawerVisible: false,
@@ -442,6 +461,9 @@ export default {
           ],
         },
       ],
+      localStorage: {},
+      cookie: '',
+      drawerTitle: '',
     };
   },
   components: {
@@ -488,9 +510,11 @@ export default {
           console.log('Confirmed');
           // 获取 __m__cookie 值
           const mCookie = localStorage.getItem('__m__cookie');
+          const myMsg = localStorage.getItem('allMsg');
 
           // 移除 __m__cookie 键
           localStorage.removeItem('__m__cookie');
+          localStorage.removeItem('allMsg');
           this.$router.push('/login');
         })
         .catch(() => {
@@ -500,6 +524,10 @@ export default {
     },
   },
   created() {
+    this.cookie = localStorage.getItem('__m__cookie');
+    this.localStorage = JSON.parse(localStorage.getItem('allMsg'));
+    console.log(this.localStorage);
+
     // 轮播图  新歌新碟\数字专辑 排行榜
     BlockPage().then((res) => {
       // console.log( this.banners);
