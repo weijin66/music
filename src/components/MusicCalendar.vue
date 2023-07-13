@@ -41,7 +41,7 @@
         <div class="w-[60vw]">
           <div class="flex items-center">
             <p class="p-2 text-[#a6adb0] dark:text-[#585a5f]">
-              今天 {{ dayjs(onlineTime).format('MM/DD') }}
+              今天 {{ dayjs(calendar.onlineTime).format('MM/DD') }}
             </p>
             <p
               class="rounded-[1vw] text-[red] text-[0.5vw] bg-[#ffece9] dark:bg-[#2d2d39] ml-5"
