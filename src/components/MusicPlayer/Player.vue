@@ -23,7 +23,9 @@
       @click="$router.push('/musicplayer')"
     >
       <span class="text-[#3E485E]">{{ $player._currentTrack.name }}</span>
-      <span class="text-[#7B8591]"
+      <span
+        v-if="$player._currentTrack.ar && $player._currentTrack.ar[0]"
+        class="text-[#7B8591]"
         >-{{ $player._currentTrack.ar[0].name }}</span
       >
     </div>

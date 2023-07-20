@@ -30,9 +30,7 @@
       </div>
     </div>
     <!-- 音乐日历 -->
-    <ul
-      class="bg-[#fff] dark:bg-[#272930] rounded-[2vw] w-[90%] mx-auto mt-6 mb-6"
-    >
+    <ul class="bg-[#fff] dark:bg-[#272930] rounded-[2vw] w-[90%] mx-auto mt-6">
       <li
         class="flex items-center justify-around"
         v-for="item in name"

@@ -79,6 +79,12 @@ const routes = [
     path: '/mv',
     component: () => import('../views/MVView/MVView.vue'),
   },
+  // 播放mv页面路由
+  {
+    path: '/playvideo',
+    name: 'playvideo',
+    component: () => import('../views/VideoPlayerView/VideoPlayerView.vue'),
+  },
 ];
 
 Vue.use(VueRouter);

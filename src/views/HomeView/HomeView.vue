@@ -1,7 +1,7 @@
 <template>
   <div :class="{ dark: switchCheckStatus }">
     <div
-      class="w-[100vw] overflow-hidden bg-[#f7fafc] text-[#000] dark:bg-[#1a1c23] dark:text-[#fff]"
+      class="w-[100vw] overflow-hidden bg-[#f7fafc] text-[#000] dark:bg-[#1a1c23] dark:text-[#fff] mb-[28vw]"
     >
       <!-- 搜索框 -->
       <div class="w-[100vw] flex items-center justify-around mt-3 relative">

@@ -14,6 +14,12 @@ Vue.use(Vant);
 import dayjs from 'dayjs';
 Vue.prototype.dayjs = dayjs;
 
+// 进度条插件
+import VueSlider from 'vue-slider-component';
+import 'vue-slider-component/theme/default.css';
+
+Vue.component('VueSlider', VueSlider);
+
 //页面打开，请求自动发送
 // 请求回来的数据还要渲染到页面上 （数据驱动视图的框架）
 // 数据驱动试图变化的条件：数据必须是响应式的数据（data） + 数据必须通过模板语法绑定到模板中
