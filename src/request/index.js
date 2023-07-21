@@ -138,3 +138,10 @@ export const featMvDetail = (mvid) =>
  */
 export const featMvDetailInfo = (mvid) =>
   http.get('/mv/detail/info', { params: { mvid } });
+
+/**
+ * @description MV评论
+ */
+// 评论
+export const featMvComment = (id) =>
+  http.get('/comment/mv', { params: { id } });

@@ -145,6 +145,7 @@
             <Icon
               class="text-[6vw] mb-[2vw] text-[#eaeaea]"
               icon="uis:comment-dots"
+              @click.native="showPopup"
             />
             <span class="text-[#eaeaea] text-[3vw]">{{
               dataTruncation(currentVideoInteractionData?.commentCount)
@@ -226,6 +227,77 @@
       <!-- 发表评论 结束 -->
     </div>
     <!-- {/* 底部结束 */} -->
+    <!-- 评论弹框 -->
+    <van-popup v-model="show" position="bottom" :style="{ height: '70%' }">
+      <div>
+        <!-- 评论头部开始 -->
+        <div class="w-[91vw] mx-auto">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[4vw] text-[#333] font-semibold">评论</span>
+              <span class="text-[4vw] text-[#333] font-semibold"
+                >({{ addComment }})</span
+              >
+            </div>
+            <ul class="w-[33vw] flex items-center justify-between">
+              <li class="text-[4vw] text-[#333] font-semibold">推荐</li>
+              <span class="text-[#f5f5f5]">|</span>
+              <li class="text-[4vw] text-[#999] font-semibold">最热</li>
+              <span class="text-[#f5f5f5]">|</span>
+              <li class="text-[4vw] text-[#999] font-semibold">最新</li>
+            </ul>
+          </div>
+        </div>
+        <!-- 评论头部结束 -->
+        <!-- 评论内容开始 -->
+        <ul class="w-[92vw] mx-auto mt-6">
+          <li v-for="item in hotComments" :key="item.id" class="mt-[3vw]">
+            <div class="flex items-center justify-between">
+              <img
+                :src="item.user.avatarUrl"
+                alt=""
+                class="w-[10vw] h-[10vw] rounded-[50%]"
+              />
+              <div class="flex-1 ml-2">
+                <div class="flex items-center">
+                  <p class="text-[4vw]">
+                    {{ item.user.nickname }}
+                  </p>
+                  <img
+                    :src="item.user?.vipRights?.associator?.iconUrl"
+                    alt=""
+                    class="w-[9vw] h-[4vw]"
+                    v-if="item.user?.vipRights?.associator?.iconUrl"
+                  />
+                </div>
+                <div>
+                  <p class="text-[2vw] text-[#999]">
+                    {{ item.timeStr }}{{ item.ipLocation.location }}
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <p class="text-[#999]">{{ item.likedCount }}</p>
+                <Icon icon="iconamoon:like-light" color="#999" />
+              </div>
+            </div>
+            <!-- 评论部分 -->
+            <div class="ml-[13vw] mb-1 border-[#ccc] border-b-[0.1vw]">
+              <p>
+                {{ item.content }}
+              </p>
+              <p class="flex items-center text-[3vw] text-[#4d7eb1]">
+                28条回复<Icon
+                  icon="mingcute:right-line"
+                  color="#4d7eb1"
+                  width="3vw"
+                />
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -234,6 +306,8 @@ import {
   featMvUrl,
   featMvDetail,
   featMvDetailInfo,
+  featMvComment,
+  featMvCommentFloor,
 } from '../../request/index.js';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
@@ -255,6 +329,9 @@ export default {
       currentPlaybackDuration: '00:00', // 当前播放时长
       currentTotalPlaybackDuration: '00:00', // 当前播放总时长
       touchTheProgressBar: false, // 触摸进度条
+      show: false, //评论显示隐藏
+      addComment: [], //评论数量
+      hotComments: [],
     };
   },
   computed: {
@@ -275,6 +352,12 @@ export default {
     // 交互数据
     const res3 = await featMvDetailInfo(this.$route.params.id);
     this.currentVideoInteractionData = res3.data;
+
+    // 评论数据
+    const res4 = await featMvComment(this.$route.params.id);
+    this.hotComments = res4.data.hotComments;
+    this.addComment = res4.data.total;
+    console.log(this.hotComments);
   },
   mounted() {
     this.initPlayer();
@@ -344,6 +427,9 @@ export default {
       return `${minutes.toString().padStart(2, '0')}:${seconds
         .toString()
         .padStart(2, '0')}`;
+    },
+    showPopup() {
+      this.show = true;
     },
   },
 };
